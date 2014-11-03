@@ -1,0 +1,208 @@
+<Module>
+<ModulePrefs title="Event Posting Form" description="Post a new event to be reviewed." author="Lillian Tseng" author_affiliation="N/A" author_email="lilliantseng@gmail.com" screenshot="/ig/modules/spreadsheet.png" thumbnail="/ig/modules/spreadsheet-thm.png">
+<Require feature="idi"/>
+<Require feature="locked-domain"/>
+</ModulePrefs>
+<UserPref name="_event_posting_url" display_name="Data source url" required="true"/>
+<Content type="html">
+<![CDATA[
+<script src="https://sites.google.com/site/magnifiedhealingchinese/jquery-1.4.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://sites.google.com/site/magnifiedhealingchinese/jquery.validate.js"></script> 
+<script> $(document).ready(function(){
+ var validator = $("#FormID").validate(
+				{ rules: {
+					//"entry.1000000": {required: true, maxlength: 50}, //活動名稱 
+					"entry.1000001": {required: true, date: true, maxlength: 10}, //日期 
+					"entry.1000002": {required: true, date: true, maxlength: 10}, //日期 
+					"entry.1000003": {required: true, timeHM: true, maxlength: 5}, //時間 
+					"entry.1000004": {required: true, timeHM: true, maxlength: 5}, //時間 
+					"entry.1000005": {maxlength: 50}, //場地名稱 
+					//"country": {required: true, maxlength: 100},//國家 
+					"state": {maxlength: 20},//省/洲 
+					"city": {required: true, maxlength: 20},//城市 
+					"entry.1000006": {required: true, maxlength: 100},//地址 
+					"entry.1000007": {required: true, maxlength: 50 },//教師 
+					"entry.1000008": {required:true, maxlength: 50}, //主辦者 
+					"entry.1000009": {phone: true, maxlength: 20}, //台灣連絡電話 
+					"entry.1000010": {intPhone: true, maxlength: 20}, //台灣以外地區連絡電話 
+					"entry.1000011": {required: true, email: true, maxlength: 100}, //電子郵件信箱 
+					"entry.1000012": {url: true, maxlength: 100}, //網站 "entry.10000013": {maxlength: 300} //注意事項 
+					// "entry.1000015": {maxlength: 100} //備註 }, 
+				errorClass: "error", 
+				invalidHandler: 
+					function(form, validator) { 
+						if (validator.numberOfInvalids()) { 
+							alert("欄位檢核未通過,請查看欄位旁錯誤訊息!!"); 
+						} 
+					}, 
+				submitHandler: 
+					function(form) { 
+						setActivity(form); 
+						concataddr(form); 
+						formatPhone(form); 
+						custommsg(); 
+						var pref = new _IG_Prefs(); 
+						form.action = pref.getString("_event_posting_url"); 
+						//$.post(form.action, $("#FormID").serialize()); 
+						form.submit(); 
+					} 
+				} 
+			); 
+		}
+	); 
+</script> 
+
+<style> 
+	label.error { 
+		background: #f7f7f7 url('https://sites.google.com/site/magnifiedhealingchinese/unchecked.gif') no-repeat; 
+		padding-left: 16px; margin-left: .3em; color: #C9C; border:solid gray 1px; 
+	} 
+</style> 
+<style type="text/css" media="screen">
+.ss-form-container{width: 600px; background-color: #F4E8FF; border: 1px solid #CCC; padding: 0.5em 1em; font-size: 1em;} 
+.ss-q-title{font-weight: bold; !--padding-left:7px; margin-bottom:8px; display: block; color: #46094d;} 
+.submit{color: #46094d; background: #e2baf6; font-size: 1em;} 
+.ss-form-entry{margin-bottom: 1.5em;} 
+.ss-q-short {background:#f7f7f7; border:solid gray 1px; padding:0px 3px; color:#666666; font-size: 1em;} 
+.ss-q-hint {color: rgb(104,51,103); padding-left:7px; font-weight: normal;} 
+</style> 
+
+<script type="text/javascript"> 
+function setActivity(f) { 
+	var activity = f.elements["activity"].value; 
+	if (activity == "others") activity = '5' + $.trim(f.elements["other-activity"].value); 
+	if (activity.length == 0) return false; 
+	f.elements["entry.1000000"].value = activity; return true; 
+} 
+
+function concataddr(f) { 
+	var country = f.elements["country"].value; 
+	if (country == "others") country = $.trim(f.elements["other-country"].value); 
+	if (country.length == 0) return false; 
+	var address = country + '|' + f.elements["state"].value + '|' + f.elements["city"].value + '|' + f.elements["entry.1000006"].value; 
+	f.elements["entry.1000006"].value = address; 
+	return true; 
+} 
+
+function formatPhone(f) { 
+	f.elements["entry.1000009"].value = '\'' + f.elements["entry.1000009"].value; 
+} 
+
+function custommsg() { 
+	document.getElementById("form-message").style.display=""; 
+	document.getElementById("form-message").innerHTML='感謝您的填寫,我們會盡快處理!<br> <input type=\"button\" value = \"回到上一頁\" onclick=\" back()\"/> '; 
+	document.getElementById("form-container").style.display="none"; 
+} 
+
+function back(){ 
+	//parent.location.href = document.location.href.substring(0,document.location.href.lastIndexOf('/event-posting-form')) +"/event-posting-form"; 
+	parent.location.replace("http://www.magnifiedhealing-chinese.com/event-posting-form"); 
+} 
+
+function checkActivity(s){ 
+	switch (s.value) { 
+		case "1擴大療癒法一階工作坊": 
+		case "2擴大療癒法慶典工作坊與慶典活動": 
+		case "3擴大療癒法慶典活動": 
+		case "4擴大療癒法三階光能療癒工作坊": 
+			//hide others 
+			document.getElementById("other-activity").style.display="none"; 
+			$("#other-activity").rules("remove", "required maxlength"); 
+			$("#FormID").validate().element("#other-activity"); 
+			break; 
+		case "others": 
+			document.getElementById("other-activity").style.display="inline"; 
+			$("#other-activity").rules("add", {required: true, maxlength: 50, messages: { required: "請填寫活動名稱" } }); 
+			break; 
+		default: 
+			break; 
+	} 
+} 
+
+function checkCountry(s){ 
+	switch (s.value) { 
+		case "台灣": 
+		case "香港": 
+		case "新加坡": 
+		case "馬來西亞": 
+			//hide others 
+			document.getElementById("other-country").style.display="none"; 
+			$("#other-country").rules("remove", "required maxlength"); 
+			$("#FormID").validate().element("#other-country"); 
+			//state is not required 
+			$("#state").rules("remove", "required"); 
+			$("#FormID").validate().element("#state"); 
+			break; 
+		case "中國": 
+		case "美國": 
+			//hide others 
+			document.getElementById("other-country").style.display="none"; 
+			$("#other-country").rules("remove", "required maxlength"); 
+			$("#FormID").validate().element("#other-country"); 
+			//state is required 
+			$("#state").rules("add", { required: true, messages: { required: "選擇" + ((s.value == '中國')?'中國':'美國') + "時必須填寫省/州" } }); 
+			break; 
+		case "others": 
+			document.getElementById("other-country").style.display="inline"; 
+			$("#other-country").rules("add", {required: true, maxlength: 20}); 
+			//state is not required 
+			$("#state").rules("remove", "required"); $("#FormID").validate().element("#state"); 
+			break; 
+		default: 
+			break; 
+	} 
+} 
+</script> 
+
+<div class="ss-form-container" style="display:none;" id="form-message"></div> 
+<div class="ss-form-container" id="form-container"> 
+<form action="" method="POST" target="fake-target" name="activity-info" id="FormID"> 
+<div class="ss-form-entry">
+<span class="ss-q-title">活動名稱*</span> <input type="text" class="ss-q-short" name="entry.1000000" style="display:none;"/> 
+<select name="activity" class="ss-q-short" type="text" onchange="checkActivity(this);"> 
+	<option value="1擴大療癒法一階工作坊" selected >擴大療癒法一階工作坊</option> 
+	<option value="2擴大療癒法慶典工作坊與慶典活動">擴大療癒法慶典工作坊與慶典活動</option> 
+	<option value="3擴大療癒法慶典活動">擴大療癒法慶典活動</option> 
+	<option value="4擴大療癒法三階光能療癒工作坊">擴大療癒法三階光能療癒工作坊</option> 
+	<option value="others">其他</option> 
+</select>&nbsp&nbsp
+<input type="text" class="ss-q-short" id = "other-activity" name="other-activity" size="20" style="display:none;" /></div> 
+<div class="ss-form-entry"><span class="ss-q-title">日期*<span class="ss-q-hint">格式為yyyy/mm/dd, ex: 2011/03/23</span></span> 
+<input type="text" class="ss-q-short" name="entry.1000001" size="10"/> ~ <input type="text" class="ss-q-short" name="entry.1000002" size="10"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">時間*<span class="ss-q-hint">格式為hh:mm, ex: 16:00</span></span> 
+<input type="text" class="ss-q-short" name="entry.1000003" size="5"/> ~ <input type="text" class="ss-q-short" name="entry.1000004" size="5"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">場地名稱</span> <input type="text" class="ss-q-short" name="entry.1000005" size="50"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">國家*</span> 
+<select name="country" class="ss-q-short" type="text" onchange="checkCountry(this);"> 
+	<option value="台灣" selected >台灣</option> 
+	<option value="中國">中國</option> 
+	<option value="美國">美國</option> 
+	<option value="香港">香港</option> 
+	<option value="新加坡">新加坡</option> 
+	<option value="馬來西亞">馬來西亞</option> 
+	<option value="others">其他</option> 
+</select>&nbsp&nbsp
+<input type="text" class="ss-q-short" id = "other-country" name="other-country" size="20" style="display:none;" /></div> 
+<div class="ss-form-entry"><span class="ss-q-title">省/州</span> <input type="text" class="ss-q-short" name="state" id="state" size="20"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">城市*</span> <input type="text" class="ss-q-short" name="city" size="20"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">地址*</span> <textarea class="ss-q-short" cols="60" rows="3" name="entry.1000006" /></textarea></div> 
+<div class="ss-form-entry"><span class="ss-q-title">教師*</span> <input type="text" class="ss-q-short" name="entry.1000007" size="50"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">主辦者*</span> <input type="text" class="ss-q-short" name="entry.1000008" size="50"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">台灣連絡電話<span class="ss-q-hint">格式為03-xxxxxxx或02-xxxxxxxx,手機請輸入09xxxxxxxx</span></span> 
+<input type="text" class="ss-q-short" name="entry.1000009" size="20"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">台灣以外地區連絡電話<span class="ss-q-hint">請依 國碼-區域號碼-號碼 格式填寫, ex: 886-2-12345678</span></span> 
+<input type="text" class="ss-q-short" name="entry.1000010" size="20"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">電子郵件信箱*</span> <input type="text" class="ss-q-short" name="entry.1000011" size="50"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">網站<span class="ss-q-hint">須以http:// 或https://開頭</span></span> 
+<input type="text" class="ss-q-short" name="entry.1000012" size="50"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">注意事項</span> <textarea class="ss-q-short" name="entry.1000014" rows="5" cols="60"/></textarea></div> 
+<p></p> 
+<input type="submit" class="submit" value="送出活動資訊" /> 
+<input type="reset" class="submit" value="取消" />
+</form> 
+</div> 
+<iframe src="#" id="fake-target" name="fake-target" style="width:0px; height:0px; border:0px;"></iframe>
+<br />
+]]>
+</Content>
+</Module>
