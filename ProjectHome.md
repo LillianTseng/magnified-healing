@@ -1,0 +1,1 @@
+It host all the widgets for MH chinese site
