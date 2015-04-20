@@ -3,6 +3,9 @@ Automatically exported from code.google.com/p/magnified-healing
 
 
 2015/4/20 Google code is shutting down, need to move code to GitHub
+After moving the codes here, there's no direct access to the xml file, so I use github page to host the xml
+Refer to the followin link, and all the changes will be made in branch gp-pages in the future!!
+https://help.github.com/articles/user-organization-and-project-pages/
 
 ------------------------------------------
 2014/11/3 old widget place can't be access by GGE editor anymore, so I move the form to code.google.com/hosting now
