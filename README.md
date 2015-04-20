@@ -7,6 +7,8 @@ After moving the codes here, there's no direct access to the xml file, so I use 
 Refer to the followin link, and all the changes will be made in branch gp-pages in the future!!
 https://help.github.com/articles/user-organization-and-project-pages/
 
+New xml position: http://lilliantseng.github.io/magnified-healing/event-posting-form.xml
+
 ------------------------------------------
 2014/11/3 old widget place can't be access by GGE editor anymore, so I move the form to code.google.com/hosting now
 Old widget place: .../event-posting-form.xml
