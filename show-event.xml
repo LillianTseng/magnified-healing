@@ -1,0 +1,220 @@
+﻿<Module>
+<ModulePrefs title="Show MH Event Gadget"
+             description="Gadget to show recent MG events."
+             author="Lillian Tseng"
+             author_affiliation="N/A"
+             author_email="lilliantseng@gmail.com"
+             screenshot="/ig/modules/spreadsheet.png"
+             thumbnail="/ig/modules/spreadsheet-thm.png" > 
+<Require feature="idi"/>
+<Require feature="locked-domain" />
+</ModulePrefs>
+<UserPref name="_table_query_url" display_name="Data source url" 
+          required="true"/>
+<UserPref name="_table_query_refresh_interval" 
+          display_name="Data refresh interval (minutes)" 
+          default_value="0" datatype="enum" required="false">
+<EnumValue value="0" display_value="Do not refresh"/>
+<EnumValue value="60" display_value="1"/>
+<EnumValue value="300" display_value="5"/>
+<EnumValue value="1800" display_value="30"/>
+</UserPref>
+
+<Content type="html"><![CDATA[
+
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+
+<div id="tablediv" style="overflow: auto;">
+<img src="http://www.magnifiedhealing-chinese.com/spinner.gif" />
+</div>
+
+<style type="text/css">
+  .event  {padding:0px 0px 3px 10px;background-image:url('http://www.magnifiedhealing-chinese.com/eventbg.gif');margin-top:20px;line-height:120%;color:#46094d}
+  .eventtitle  {padding:3px 3px 3px 33px;margin-left:-10px;background-color:#9CF;background-image:url('http://www.magnifiedhealing-chinese.com/event-logo.gif');background-repeat:no-repeat;background-position:1% 50%;font-weight:bold;color:#46094d}
+  .nancy  {background-color:#C9C;background-image:url('http://www.magnifiedhealing-chinese.com/event-g-logo.gif');background-repeat:no-repeat;background-position:0% 50%;}
+</style>
+
+<script>
+
+/**
+ * Load the APIs and run sendQuery when the load is complete
+ */
+var gadgetHelper = null;
+gadgets.util.registerOnLoadHandler(loadVisualizationAPI); //20160923 change from _IG_RegisterOnloadHandler to gadgets.util.registerOnLoadHandler
+function loadVisualizationAPI() { 
+  google.load("visualization", "1");
+  google.setOnLoadCallback(sendQuery);
+}
+
+var html = [];   // start the HTML output string
+
+/**
+ * Create a query (shaped by the Gadget's user preferences), then 
+ * send it to the spreadsheet data source. Also give the name of a 
+ * function ("handleQueryResponse") to run once the spreadsheet data 
+ * is retrieved:
+ */
+function sendQuery() {
+  /* Query field mapping
+  A timestamp
+  B Activity
+  C start date
+  D end date
+  E start time
+  F end time
+  H address
+  I teacher  
+  */
+  var prefs = new gadgets.Prefs(); // User preferences 20160923: change from _IG_Prefs to gadgets.Prefs 
+  gadgetHelper = new google.visualization.GadgetHelper(); 
+  var query = gadgetHelper.createQueryFromPrefs(prefs);
+
+  query.setQuery('select * where toDate(now()) <= D order by C, B, D, E, F, I asc');
+  query.send(handleQueryResponse);
+} 
+
+/**
+ * The core logic. Process the spreadsheet data however you want. 
+ * In this case, we create HTML to be presented back to the user. 
+ * We'll use inline comments to provide a step-by-step description 
+ * of what we're doing:
+ */
+function handleQueryResponse(response) {
+
+  /**
+   * Use the visualization GadgetHelper class to handle errors 
+   */
+  if (!gadgetHelper.validateResponse(response)) {
+    return;     // Default error handling was done, just leave. 
+  }
+
+  /**
+   * GET THE DATA FROM THE SPREADSHEET - sorry to scream in caps, but 
+   * this is a key step
+   */
+  var data = response.getDataTable();
+  var unPostEvents = new Array();
+   
+  /**
+   * Process all Rows in the specified range
+   */
+  for (var row = 0; row < data.getNumberOfRows(); row++) {
+    //Judget who the teacher is
+    var teacher = escapeHtml(data.getFormattedValue(row, 8)).toLowerCase();
+
+    //Post Nancy's event first
+    if (teacher.indexOf('nancy wang')>=0 || teacher.indexOf('汪慧蓮')>=0) {
+      composeEvent(row, '<div class="eventtitle nancy">', data);
+    }
+    else {
+      unPostEvents.push(row);
+    }
+  }
+
+  //Post events of other teachers
+  for (var index = 0; index < unPostEvents.length; index++) {
+    composeEvent(unPostEvents[index],'<div class="eventtitle">', data);
+  }
+  setHtml(); 
+}
+
+function composeEvent(row, eventTitle, data) {
+    var address = new Array();
+    address = escapeHtml(data.getFormattedValue(row, 7)).split("|");
+
+    html.push('<div class="event">');
+    html.push(eventTitle);
+    //html.push('<b>活動名稱: </b>');
+    html.push(escapeHtml(data.getFormattedValue(row, 1)).substring(1));
+    //html.push('<br>');    
+    html.push('</div>');
+    
+    html.push('<div class="eventinfo">');
+    html.push('<b>日期: </b>');    
+    html.push(escapeHtml(data.getFormattedValue(row, 2)));    
+    html.push('~');    
+    html.push(escapeHtml(data.getFormattedValue(row, 3)));    
+    html.push('<br>');  
+      
+    html.push('<b>時間: </b>');    
+    html.push(escapeHtml(data.getFormattedValue(row, 4)));    
+    html.push('~');    
+    html.push(escapeHtml(data.getFormattedValue(row, 5)));    
+    html.push('<br>');  
+      
+    html.push('<b>場地名稱: </b>');    
+    html.push(escapeHtml(data.getFormattedValue(row, 6)));    
+    html.push('<br>');  
+      
+    html.push('<b>國家: </b>');    
+    html.push(address[0]);    
+    html.push(' | <b>省/州: </b>');    
+    html.push(address[1]);    
+    html.push(' | <b>城市: </b>');    
+    html.push(address[2]);    
+    html.push('<br>');    
+    
+    html.push('<b>地址: </b>');    
+    html.push(address[3]);    
+    html.push('<br>');    
+    
+    html.push('<b>教師: </b>');    
+    html.push(escapeHtml(data.getFormattedValue(row, 8)));
+    html.push('<br>');  
+      
+    html.push('<b>主辦者: </b>');    
+    html.push(escapeHtml(data.getFormattedValue(row, 9)));    
+    html.push('<br>');
+    
+    html.push('<b>台灣連絡電話: </b>');
+    html.push(escapeHtml(data.getFormattedValue(row, 10)));
+    html.push('<br>');
+    
+    html.push('<b>台灣以外地區連絡電話: </b>');
+    html.push(escapeHtml(data.getFormattedValue(row, 11)));
+    html.push('<br>');
+    
+    html.push('<b>電子郵件信箱: </b><a href="mailto:');
+    html.push(escapeHtml(data.getFormattedValue(row, 12)));
+    html.push('">');
+    html.push(escapeHtml(data.getFormattedValue(row, 12)));
+    html.push('</a><br>');
+    
+    html.push('<b>網站: </b><a href="');
+    html.push(escapeHtml(data.getFormattedValue(row, 13)));
+    html.push('" target="_blank">');
+    html.push(escapeHtml(data.getFormattedValue(row, 13)));                
+    html.push('</a><br>');  
+      
+    html.push('<b>注意事項: </b>');    
+    html.push(escapeHtml(data.getFormattedValue(row, 14)));   
+    html.push('</div></div>'); 
+    //html.push('<br>');    
+}
+
+function setHtml()
+{
+  /**
+   * Set the generated html into the container div.
+   */
+  var tableDiv = _gel('tablediv');
+  tableDiv.innerHTML = html.join('');
+  tableDiv.style.width = document.body.clientWidth + 'px';
+  tableDiv.style.height = document.body.clientHeight + 'px';
+}
+
+/**
+ * Define any supporting code you need 
+ * (like this handy function to escape special characters for html output):
+ */
+function escapeHtml(text) {
+  if (text == null) {
+    return '';
+  }
+  return _hesc(text);
+} 
+
+</script> 
+]]>
+</Content>
+</Module>
