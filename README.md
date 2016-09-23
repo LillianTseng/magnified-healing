@@ -1,6 +1,13 @@
 # magnified-healing
 Automatically exported from code.google.com/p/magnified-healing
+2016/9/23 Upcoming events cannot be shown due to obsolete API, so update it
 
+New xml gadget host url: http://lilliantseng.github.io/magnified-healing/show-event.xml
+
+Gadget attribute:
+data source: https://spreadsheets.google.com/ccc?key=0ApAHxU34jqiRdE4tbHk5MWozVV9LTHFwanEwXzloX3c&hl=en&authkey=COG2zIwB&gid=1
+do not refresh
+size: 100%, 2000, uncheck all the others
 
 2015/4/20 Google code is shutting down, need to move code to GitHub
 After moving the codes here, there's no direct access to the xml file, so I use github page to host the xml
