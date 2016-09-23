@@ -67,7 +67,7 @@ function sendQuery() {
   I teacher  
   */
   //var prefs = new gadgets.Prefs(); // User preferences 20160923: change from _IG_Prefs to gadgets.Prefs 
-  var prefs = new _IG_Prefs;
+  var prefs = new _IG_Prefs();
   gadgetHelper = new google.visualization.GadgetHelper(); 
   var query = gadgetHelper.createQueryFromPrefs(prefs);
 
