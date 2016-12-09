@@ -110,7 +110,8 @@ function checkActivity(s){
 		case "2擴大療癒法慶典工作坊與慶典活動": 
 		case "3擴大療癒法慶典活動": 
 		case "4擴大療癒法三階光能療癒工作坊": 
-			//hide others 
+		case "5擴大療癒法一階One Day Review":			
+//hide others 
 			document.getElementById("other-activity").style.display="none"; 
 			$("#other-activity").rules("remove", "required maxlength"); 
 			$("#FormID").validate().element("#other-activity"); 
@@ -173,6 +174,7 @@ function checkCountry(s){
 <span class="ss-q-title">活動名稱*</span> <input type="text" class="ss-q-short" name="entry.1000000" style="display:none;"/> 
 <select name="activity" class="ss-q-short" type="text" onchange="checkActivity(this);"> 
 	<option value="1擴大療癒法一階工作坊" selected >擴大療癒法一階工作坊</option> 
+	<option value="5擴大療癒法一階One Day Review">擴大療癒法一階One Day Review</option>
 	<option value="2擴大療癒法慶典工作坊與慶典活動">擴大療癒法慶典工作坊與慶典活動</option> 
 	<option value="3擴大療癒法慶典活動">擴大療癒法慶典活動</option> 
 	<option value="4擴大療癒法三階光能療癒工作坊">擴大療癒法三階光能療癒工作坊</option> 
