@@ -182,7 +182,7 @@ function checkCountry(s){
 </select>&nbsp&nbsp
 <input type="text" class="ss-q-short" id = "other-activity" name="other-activity" size="20" style="display:none;" /></div> 
 <div class="ss-form-entry"><span class="ss-q-title">日期*<span class="ss-q-hint">格式為yyyy/mm/dd, ex: 2011/03/23</span></span> 
-<input type="text" class="ss-q-short" name="entry.1000001" size="10"/> ~ <input type="text" class="ss-q-short" name="entry.1000002" size="10"/></div> 
+<input type="text" class="ss-q-short" name="entry.1000001" size="10"/> ~ <input type="text" class="ss-q-short" name="entry.1130960036" size="10"/></div> 
 <div class="ss-form-entry"><span class="ss-q-title">時間*<span class="ss-q-hint">格式為hh:mm, ex: 16:00</span></span> 
 <input type="text" class="ss-q-short" name="entry.1000003" size="5"/> ~ <input type="text" class="ss-q-short" name="entry.1000004" size="5"/></div> 
 <div class="ss-form-entry"><span class="ss-q-title">場地名稱</span> <input type="text" class="ss-q-short" name="entry.1000005" size="50"/></div> 
