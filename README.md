@@ -1,6 +1,10 @@
 # magnified-healing
 Automatically exported from code.google.com/p/magnified-healing
 
+[2018/02/25] Update entry id for End Date from 1000002 to 1130960036
+Julian made a form for TSL but the form got mixed up with MH form, and one field was missing, so had to add a new field to replace it
+----------------------------------------------------------
+
 [2016/12/9] Add new activity "5擴大療癒法一階One Day Review" in event-postng-form.xml
 ------------------------------------------------------------------------
 [2016/9/23] Upcoming events cannot be shown; originally thought it was because obsolete API, but found out not relative (so rollback to old API). And refresh the share option for SpreadSheet itself and could work.
