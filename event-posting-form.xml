@@ -15,7 +15,7 @@
 				rules: {
 					//"entry.1000000": {required: true, maxlength: 50}, //活動名稱 
 					"entry.1000001": {required: true, date: true, maxlength: 10}, //日期 
-					"entry.1000002": {required: true, date: true, maxlength: 10}, //日期 
+					"entry.1130960036": {required: true, date: true, maxlength: 10}, //日期, change from 1000002 to 1130960036
 					"entry.1000003": {required: true, timeHM: true, maxlength: 5}, //時間 
 					"entry.1000004": {required: true, timeHM: true, maxlength: 5}, //時間 
 					"entry.1000005": {maxlength: 50}, //場地名稱 
