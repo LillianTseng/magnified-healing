@@ -1,8 +1,10 @@
 # magnified-healing
 Automatically exported from code.google.com/p/magnified-healing
 
-[2018/02/25] Update entry id for End Date from 1000002 to 1130960036
-Julian made a form for TSL but the form got mixed up with MH form, and one field was missing, so had to add a new field to replace it
+[2018/02/25] Update entry id for End Date from 1000002 to 1130960036 & change form aciton to real url
+-Julian made a form for TSL but the form got mixed up with MH form, and one field was missing, so had to add a new field to replace it
+-Originally retrieve form action url from MH site widget prefs, but that url https://docs.google.com/spreadsheet/formResponse?formkey=dE4tbHk5MWozVV9LTHFwanEwXzloX3c6MQ doesn't work for some reason, so hard code current form url instead and may put it back to reference in the future if needed.
+https://docs.google.com/forms/d/e/1FAIpQLSd6kEDKxEqb0I83R5hnv3x5AQBhrZQX98-zzhJ62I0JCC3VJQ/formResponse
 ----------------------------------------------------------
 
 [2016/12/9] Add new activity "5擴大療癒法一階One Day Review" in event-postng-form.xml
