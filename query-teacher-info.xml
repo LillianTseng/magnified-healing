@@ -20,7 +20,7 @@
 <EnumValue value="1800" display_value="30"/>
 </UserPref>
 
-<!--<html>-->
+<!--html-->
 <Content type="html"><![CDATA  
 
 <script src="https://sites.google.com/site/magnifiedhealingchinese/jquery-1.4.min.js" type="text/javascript"></script>
@@ -298,7 +298,7 @@ function print(msg) {
 <div id="debug_div" style="font-size:9pt; padding:5px; color: red;"></div>
 <br />
 </body>
-<!--</html>-->
+<!--/html-->
 ]]>
 </Content>
 </Module> 
