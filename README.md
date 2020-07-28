@@ -1,7 +1,13 @@
 # magnified-healing
 Automatically exported from code.google.com/p/magnified-healing
-
+[2020/07/28]Add query-teacher-info.xml for new application to add and view MG teacher profiles
+--
+-Already added another spreadsheet and form for users to fill in teacher profile, and the fore/sheet is attached with notice and review script.
+-This xml is for MG website page https://sites.google.com/site/magnifiedhealingchinese/directory, and the gadget url is http://lilliantseng.github.io/magnified-healing/query-teacher-info.xml, in which the data url is https://docs.google.com/spreadsheets/d/1UfJBgdyejQ21dr4s1fyBtkMYIqZYMUo58b6I6oCIoY0/edit?gid=1844470468&headers=1.
+-In show-event.xml, I still use jsapi version 41 for keeping GadgetHelper, but here I update all apis, and since I couldn't find a way to use Prefs to set data url (at google site), I hard coded the data url, hence no need of GadgetHelper.
+--------------------------------------------------------------------------------
 [2018/02/25] Update entry id for End Date from 1000002 to 1130960036 & change form aciton to real url
+--
 -Julian made a form for TSL but the form got mixed up with MH form, and one field was missing, so had to add a new field to replace it
 -Originally retrieve form action url from MH site widget prefs, but that url https://docs.google.com/spreadsheet/formResponse?formkey=dE4tbHk5MWozVV9LTHFwanEwXzloX3c6MQ doesn't work for some reason, so hard code current form url instead and may put it back to reference in the future if needed.
 https://docs.google.com/forms/d/e/1FAIpQLSd6kEDKxEqb0I83R5hnv3x5AQBhrZQX98-zzhJ62I0JCC3VJQ/formResponse
