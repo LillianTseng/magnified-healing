@@ -28,7 +28,8 @@
 <script src="https://www.gstatic.com/charts/loader.js"></script> 
 
 <script>
-var dataUrl = "https://docs.google.com/spreadsheets/d/1UfJBgdyejQ21dr4s1fyBtkMYIqZYMUo58b6I6oCIoY0/edit?usp=sharing#gid=1844470468"; //MH Practitioner/Teacher Info Reg [sheet1]
+//var dataUrl = "https://docs.google.com/spreadsheets/d/1UfJBgdyejQ21dr4s1fyBtkMYIqZYMUo58b6I6oCIoY0/edit?usp=sharing#gid=1844470468"; //MH Practitioner/Teacher Info Reg [sheet1]
+var dataUrl = "https://docs.google.com/spreadsheets/d/1UfJBgdyejQ21dr4s1fyBtkMYIqZYMUo58b6I6oCIoY0/edit?gid=1844470468&headers=1"; //change another way to identify gid since the previous one doesn't work
 // debug flag. When its value is non-zero, debugging messages are displayed
 var debug = 1;
 // The string containing debugging messages
@@ -137,13 +138,11 @@ function handleQueryResponse(response) {
   }
 
   var data = response.getDataTable();
-  print('result count' + data.getNumberOfRows);
+  print('result count: ' + data.getNumberOfRows());
   if (data.getNumberOfRows() > 0)  {  
     html.push('<div class="resulttitle">');
     html.push('擴大療癒法教師/習修者名錄搜尋結果');
-    html.push('</div>');
-    print(data.getNumberOfRows() + " results");
-     
+    html.push('</div>');     
     for (var row = 0; row < data.getNumberOfRows(); row++) {
         composeTeacherInfo(row, data);
     }
@@ -214,7 +213,7 @@ function composeTeacherInfo(row, data) {
     html.push('</a><br></td></tr>');  
     
     //var levels = escapeHtml(data[row][8]).split('\n');
-	print('levels are ' + escapeHtml(data.getFormattedValue(row, 8));
+    print('levels are ' + escapeHtml(data.getFormattedValue(row, 8)));
     var levels = escapeHtml(data.getFormattedValue(row, 8)).split('\n');
     html.push('<tr><td style="vertical-align: top;width:40px"">');
     html.push('<b>資格: </b></td><td>');
