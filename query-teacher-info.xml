@@ -51,7 +51,7 @@ var debug_html = "";
 .ss-q-hint {color: rgb(104,51,103); padding-left:7px; font-weight: normal;} 
 </style> 
 <style type="text/css">
-  .resulttitle  {background-color:#C9C;font-weight:bold;color:#46094d; font-size: 18px;text-align:center}
+  .resulttitle  {background-color:#C9C;font-weight:bold;color:#46094d; font-size: 20px;text-align:center}
   .profilename  {padding:0px 0px 3px 10px;font-weight:bold;color:#C3C}
   .profile  {padding:0px 0px 3px 6px;color:#46094df;font-size: 14px}
 </style>
@@ -94,6 +94,8 @@ function sendQuery() {
   var queryStr = "select * where C contains '" + country + "'";
  
   clearResult(); //clear previous search result
+  $("#search-btn").attr('disabled',1);  
+  html.push("搜尋中，請稍後...");
    
   if (city.length > 0)
     queryStr += " AND D contains '" + city + "'";
@@ -118,12 +120,14 @@ function sendQuery() {
  * of what we're doing:
  */
 function handleQueryResponse(response) {
+  $("#search-btn").attr('disabled',0);//reactivate button
 
   if (response.isError()) { //20200728 change from gadgetHelper function to queryResponse function directly
     print('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
     return;     // Default error handling was done, just leave. 
   }
 
+  clearResult();
   var data = response.getDataTable();
   print('result count: ' + data.getNumberOfRows());
   if (data.getNumberOfRows() > 0)  {  
