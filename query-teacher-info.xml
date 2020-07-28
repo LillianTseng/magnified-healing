@@ -62,7 +62,7 @@ var debug_html = "";
 var gadgetHelper = null;
 //_IG_RegisterOnloadHandler(loadVisualizationAPI); /*20200727 this is legacy function, need to replace by the new func below*/
 gadgets.util.registerOnLoadHandler(loadVisualizationAPI);
-function loadVisualizationAPI() { /*20200623 if wants to use GadgetHelper, must use verison 41*
+function loadVisualizationAPI() { /*20200623 if wants to use GadgetHelper, must use verison 41*/
   google.charts.load('current', {packages: ['corechart']});
 }
 
