@@ -1,0 +1,304 @@
+<Module>
+<ModulePrefs title="Query MH Teacher Gadget"
+             description="Gadget to query MH teacher profiles."
+             author="Lillian Tseng"
+             author_affiliation="N/A"
+             author_email="lilliantseng@gmail.com"
+             screenshot="/ig/modules/spreadsheet.png"
+             thumbnail="/ig/modules/spreadsheet-thm.png" > 
+<Require feature="idi"/>
+<Require feature="locked-domain" />
+</ModulePrefs>
+<UserPref name="_table_query_url" display_name="Data source url" 
+          required="true"/>
+<UserPref name="_table_query_refresh_interval" 
+          display_name="Data refresh interval (minutes)" 
+          default_value="0" datatype="enum" required="false">
+<EnumValue value="0" display_value="Do not refresh"/>
+<EnumValue value="60" display_value="1"/>
+<EnumValue value="300" display_value="5"/>
+<EnumValue value="1800" display_value="30"/>
+</UserPref>
+
+<!--<html>-->
+<Content type="html"><![CDATA  
+
+<script src="https://sites.google.com/site/magnifiedhealingchinese/jquery-1.4.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://sites.google.com/site/magnifiedhealingchinese/jquery.validate.js"></script> 
+<script>
+var dataUrl = "https://docs.google.com/spreadsheets/d/1UfJBgdyejQ21dr4s1fyBtkMYIqZYMUo58b6I6oCIoY0/edit#gid=1844470468";
+// debug flag. When its value is non-zero, debugging messages are displayed
+var debug = 1;
+// The string containing debugging messages
+var debug_html = "";
+
+</script> 
+<style> 
+	label.error { 
+		background: #f7f7f7 url('https://sites.google.com/site/magnifiedhealingchinese/unchecked.gif') no-repeat; 
+		padding-left: 16px; margin-left: .3em; color: #C9C; border:solid gray 1px; 
+	} 
+</style> 
+<style type="text/css" media="screen">
+.ss-form-container{width: 600px; background-color: #F4E8FF; border: 1px solid #CCC; padding: 0.5em 1em; font-size: 1em;} 
+.ss-q-title{font-weight: bold; !--padding-left:7px; margin-bottom:8px; display: block; color: #46094d;} 
+.submit{color: #46094d; background: #e2baf6; font-size: 1em;} 
+.ss-form-entry{margin-bottom: 1.5em;} 
+.ss-q-short {background:#f7f7f7; border:solid gray 1px; padding:0px 3px; color:#666666; font-size: 1em;} 
+.ss-q-hint {color: rgb(104,51,103); padding-left:7px; font-weight: normal;} 
+</style> 
+<style type="text/css">
+  .resulttitle  {background-color:#C9C;font-weight:bold;color:#46094d; font-size: 18px}
+  .profilename  {padding:0px 0px 3px 10px;font-weight:bold;color:#C3C}
+  .profile  {padding:0px 0px 3px 6px;color:#46094df;font-size: 14px}
+</style>
+<script type="text/javascript"> 
+
+/**
+ * Load the APIs and run sendQuery when the load is complete
+ */
+var gadgetHelper = null;
+
+var html = [];   // start the HTML output string
+/**
+ * Create a query (shaped by the Gadget's user preferences), then 
+ * send it to the spreadsheet data source. Also give the name of a 
+ * function ("handleQueryResponse") to run once the spreadsheet data 
+ * is retrieved:
+ */
+function sendQuery() {
+  /* Query field mapping
+  A timestamp
+  B name
+  C country
+  D city
+  E phone
+  F email
+  G lineID
+  H website
+  I level
+  J fileLink
+  K language
+  */
+  var country = $("#t_country").val();
+  var city = $("#t_city").val();
+  var name = $("#t_name").val();
+  var queryStr = "select * where C = '" + country + "'";
+ 
+  clearResult(); //clear previous search result
+   
+  if (city.length > 0)
+    queryStr += " AND D contains '" + city + "'";
+
+  if (name.length > 0)
+    queryStr += " AND B contains '" + name + "'";
+  
+ html.push(queryStr);
+  var prefs = new gadgets.Prefs();;
+  gadgetHelper = new google.visualization.GadgetHelper(); 
+  var query = gadgetHelper.createQueryFromPrefs(prefs);
+  //var query = google.visualization.Query(dataUrl);
+  
+  print(queryStr);
+  query.setQuery(queryStr);
+  query.send(handleQueryResponse);
+  
+  /* dev code
+  var data = [["1234566","Lillian","台灣","台北","+886930793923","lilliantseng@gmail.com","lilliantseng","http://www.google.com","一階教師\n二階慶典指導員","中文"],
+                ["123123123","陳彥宏","新加坡","Chang-hua","0919882330","siza524@gmail.com","WeChat: size524","https://lillisntseng.wordpress.com","三階教師\n三階習修者\n二階教師","英文, 廣東話"]];
+     html.push('<div class="resulttitle">');
+    html.push('擴大療癒法教師/習修者名錄搜尋結果');
+    html.push('</div>');
+     
+    for (var row = 0; row < data.length; row++) {
+        composeTeacherInfo(row, data);
+    }
+    setHtml();*/
+} 
+/**
+ * The core logic. Process the spreadsheet data however you want. 
+ * In this case, we create HTML to be presented back to the user. 
+ * We'll use inline comments to provide a step-by-step description 
+ * of what we're doing:
+ */
+function handleQueryResponse(response) {
+  /**
+   * Use the visualization GadgetHelper class to handle errors 
+   */
+  if (!gadgetHelper.validateResponse(response)) {
+    print("not query respone");
+    return;     // Default error handling was done, just leave. 
+  }
+
+  var data = response.getDataTable();
+  if (data.getNumberOfRows > 0)  {  
+    html.push('<div class="resulttitle">');
+    html.push('擴大療癒法教師/習修者名錄搜尋結果');
+    html.push('</div>');
+    print(data.getNumberOfRows + " results");
+     
+    for (var row = 0; row < data.getNumberOfRows(); row++) {
+        composeTeacherInfo(row, data);
+    }
+  }
+  else {     
+    html.push('<div class="profiletitle">');
+    html.push('抱歉，擴大療癒法教師/習修者名錄中沒有符合您搜尋條件的結果');
+    html.push('</div>');
+    print("no result");
+  }
+  setHtml(); 
+}
+function composeTeacherInfo(row, data) {
+  /* 
+  A timestamp
+  B name
+  C country
+  D city
+  E phone
+  F email
+  G lineID
+  H website
+  I level
+  J fileLink    //don't show
+  K language
+  */
+    
+    html.push('<div class="profilename">');
+    html.push(escapeHtml(data.getFormattedValue(row, 1))); 
+    //html.push(escapeHtml(data[row][1])); 
+    html.push('</div>');
+    
+    html.push('<table class="profile">');
+    html.push('<tr><td colspan=2><b>國家: </b>');    
+    html.push(escapeHtml(data.getFormattedValue(row, 2))); 
+    //html.push(escapeHtml(data[row][2]));    
+    html.push('</td></tr>');  
+      
+    html.push('<tr><td colspan=2><b>城市: </b>');   
+    html.push(escapeHtml(data.getFormattedValue(row, 3)));  
+    //html.push(escapeHtml(data[row][3])); 
+    html.push('</td></tr>');   
+      
+    html.push('<tr><td colspan=2><b>電話: </b>');    
+    html.push(escapeHtml(data.getFormattedValue(row, 4)));   
+    //html.push(escapeHtml(data[row][4]));  
+    html.push('</td></tr>');   
+    
+    html.push('<tr><td colspan=2><b>電子郵件信箱: </b><a href="mailto:');
+    html.push(escapeHtml(data.getFormattedValue(row, 5)));
+    //html.push(escapeHtml(data[row][5])); 
+    html.push('">');
+    html.push(escapeHtml(data.getFormattedValue(row, 5)));
+    //html.push(escapeHtml(data[row][5])); 
+    html.push('</a><br></td></tr>');
+    
+    html.push('<tr><td colspan=2><b>LINE ID 或 WeChat ID: </b>');
+    html.push(escapeHtml(data.getFormattedValue(row, 6)));
+    //html.push(escapeHtml(data[row][6])); 
+    html.push('</td></tr>');  
+    
+    html.push('<tr><td colspan=2><b>網站: </b><a href="');
+    html.push(escapeHtml(data.getFormattedValue(row, 7)));
+    //html.push(escapeHtml(data[row][7])); 
+    html.push('" target="_blank">');
+    html.push(escapeHtml(data.getFormattedValue(row, 7))); 
+    //html.push(escapeHtml(data[row][7]));                
+    html.push('</a><br></td></tr>');  
+    
+    //var levels = escapeHtml(data[row][8]).split('\n');
+    var levels = escapeHtml(data.getFormattedValue(row, 8));
+    html.push('<tr><td style="vertical-align: top;width:40px"">');
+    html.push('<b>資格: </b></td><td>');
+    for (var i = 0; i < levels.length; i++) {
+        html.push('<img src="http://www.magnifiedhealing-chinese.com/magnified-icon.png"/>');
+        html.push(escapeHtml(levels[i])); 
+        html.push('<br>');                       
+    }
+    html.push('</td></tr>');  
+    
+    html.push('<tr><td colspan=2><b>語言: </b>');
+    html.push(escapeHtml(data.getFormattedValue(row, 10))); 
+    //html.push(escapeHtml(data[row][9]));   
+    html.push('</td></tr></table><hr>');   
+}
+
+function setHtml()
+{
+  /**
+   * Set the generated html into the container div.
+   */
+   /*
+  var resultDiv = _gel('search-result');  //equals to document.getElementById
+  resultDiv.innerHTML = html.join('');
+  resultDiv.style.width = document.body.clientWidth + 'px';
+  resultDiv.style.height = document.body.clientHeight + 'px';      */
+  
+  //jQuery style
+  var resultDiv = $("#search-result");
+  resultDiv.html(html.join(''));
+  //resultDiv.width(document.body.clientWidth);
+  //resultDiv.height(document.body.clientHeight);
+}
+function clearResult()
+{
+  //_gel("search-result").innerHTML = "";
+  $("#search-result").html("");
+  html = [];
+}
+/**
+ * Define any supporting code you need 
+ * (like this handy function to escape special characters for html output):
+ */
+function escapeHtml(text) {
+  if (text == null) {
+    return '';
+  }
+  //return _hesc(text);
+  
+  // '<' and '>'
+  text = text.replace(/</g, "[").replace(/>/g, "]");
+  // '"' and '
+  text = text.replace(/"/g, "*").replace(/'/g, "*");
+
+  return text;
+} 
+
+// Outputs debug messages if debug flag has a non-zero value
+function print(msg) {      
+    if (debug) {
+        debug_html += "<br>" + msg;
+        // Write debug HTML to div
+        $("#debug_div").html(debug_html);
+    }
+}
+
+</script> 
+<body>
+<div class="ss-form-container" id="form-container"> 
+<form action="" method="POST" target="search_result" name="query-info" id="FormID"> 
+<!-- query condition: name, city, country,......-->
+<div class="ss-form-entry"><span class="ss-q-title">國家</span> 
+<select name="t_country" id="t_country" class="ss-q-short" type="text"> 
+	<option value="台灣" selected>台灣</option> 
+	<option value="中國">中國</option> 
+	<option value="美國">美國</option> 
+	<option value="香港">香港</option> 
+	<option value="新加坡">新加坡</option> 
+	<option value="馬來西亞">馬來西亞</option> 
+	<option value="加拿大">加拿大</option> 
+</select>&nbsp&nbsp</div> 
+<div class="ss-form-entry"><span class="ss-q-title">姓名</span> <input type="text" class="ss-q-short" name="t_name" id="t_name" size="20"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">城市</span> <input type="text" class="ss-q-short" name="t_city" id="t_city" size="20"/></div>  
+<p></p> 
+<input type="button" value="搜尋" onclick="sendQuery()">
+</form> 
+</div> 
+<div id="search-result"></div> 
+<div id="debug_div" style="font-size:9pt; padding:5px; color: red;"></div>
+<br />
+</body>
+<!--</html>-->
+]]>
+</Content>
+</Module> 
