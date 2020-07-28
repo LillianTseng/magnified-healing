@@ -105,9 +105,10 @@ function sendQuery() {
   //var prefs = new gadgets.Prefs();;
   //gadgetHelper = new google.visualization.GadgetHelper(); 
   //var query = gadgetHelper.createQueryFromPrefs(prefs);
-  var query = google.visualization.Query(dataUrl); /*20200728 use hard-coded dataUrl instead*/
+  print('dataUrl=' + dataUrl);
+  var query = new google.visualization.Query(dataUrl); /*20200728 use hard-coded dataUrl instead*/
   
-  print(queryStr);
+  print('query = ' + queryStr);
   query.setQuery(queryStr);
   query.send(handleQueryResponse);
   
