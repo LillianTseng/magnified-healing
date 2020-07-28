@@ -90,7 +90,7 @@ function sendQuery() {
   var country = $("#t_country").val();
   var city = $("#t_city").val();
   var name = $("#t_name").val();
-  var queryStr = "select * where C = '" + country + "'";
+  var queryStr = "select * where C contains '" + country + "'";
  
   clearResult(); //clear previous search result
    
@@ -100,7 +100,6 @@ function sendQuery() {
   if (name.length > 0)
     queryStr += " AND B contains '" + name + "'";
   
- html.push(queryStr);
   /*20200728 it's said that GadgetHelper is removed due to security reason, though it's still documented*/
   //var prefs = new gadgets.Prefs();;
   //gadgetHelper = new google.visualization.GadgetHelper(); 
@@ -138,6 +137,7 @@ function handleQueryResponse(response) {
   }
 
   var data = response.getDataTable();
+  print('result count' + data.getNumberOfRows);
   if (data.getNumberOfRows > 0)  {  
     html.push('<div class="resulttitle">');
     html.push('擴大療癒法教師/習修者名錄搜尋結果');
