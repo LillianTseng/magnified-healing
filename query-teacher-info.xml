@@ -21,7 +21,8 @@
 </UserPref>
 
 <!--html-->
-<Content type="html"><![CDATA  
+<Content type="html">
+<![CDATA[
 
 <script src="https://sites.google.com/site/magnifiedhealingchinese/jquery-1.4.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="https://sites.google.com/site/magnifiedhealingchinese/jquery.validate.js"></script> 
