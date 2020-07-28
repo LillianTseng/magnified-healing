@@ -31,7 +31,7 @@
 //var dataUrl = "https://docs.google.com/spreadsheets/d/1UfJBgdyejQ21dr4s1fyBtkMYIqZYMUo58b6I6oCIoY0/edit?usp=sharing#gid=1844470468"; //MH Practitioner/Teacher Info Reg [sheet1]
 var dataUrl = "https://docs.google.com/spreadsheets/d/1UfJBgdyejQ21dr4s1fyBtkMYIqZYMUo58b6I6oCIoY0/edit?gid=1844470468&headers=1"; //change another way to identify gid since the previous one doesn't work
 // debug flag. When its value is non-zero, debugging messages are displayed
-var debug = 1;
+var debug = 0;
 // The string containing debugging messages
 var debug_html = "";
 
@@ -51,7 +51,7 @@ var debug_html = "";
 .ss-q-hint {color: rgb(104,51,103); padding-left:7px; font-weight: normal;} 
 </style> 
 <style type="text/css">
-  .resulttitle  {background-color:#C9C;font-weight:bold;color:#46094d; font-size: 18px}
+  .resulttitle  {background-color:#C9C;font-weight:bold;color:#46094d; font-size: 18px;text-align:center}
   .profilename  {padding:0px 0px 3px 10px;font-weight:bold;color:#C3C}
   .profile  {padding:0px 0px 3px 6px;color:#46094df;font-size: 14px}
 </style>
@@ -105,24 +105,11 @@ function sendQuery() {
   //var prefs = new gadgets.Prefs();;
   //gadgetHelper = new google.visualization.GadgetHelper(); 
   //var query = gadgetHelper.createQueryFromPrefs(prefs);
-  print('dataUrl=' + dataUrl);
   var query = new google.visualization.Query(dataUrl); /*20200728 use hard-coded dataUrl instead*/
   
   print('query = ' + queryStr);
   query.setQuery(queryStr);
   query.send(handleQueryResponse);
-  
-  /* dev code
-  var data = [["1234566","Lillian","台灣","台北","+886930793923","lilliantseng@gmail.com","lilliantseng","http://www.google.com","一階教師\n二階慶典指導員","中文"],
-                ["123123123","陳彥宏","新加坡","Chang-hua","0919882330","siza524@gmail.com","WeChat: size524","https://lillisntseng.wordpress.com","三階教師\n三階習修者\n二階教師","英文, 廣東話"]];
-    html.push('<div class="resulttitle">');
-    html.push('擴大療癒法教師/習修者名錄搜尋結果');
-    html.push('</div>');
-     
-    for (var row = 0; row < data.length; row++) {
-        composeTeacherInfo(row, data);
-    }
-    setHtml();*/
 } 
 /**
  * The core logic. Process the spreadsheet data however you want. 
@@ -172,47 +159,37 @@ function composeTeacherInfo(row, data) {
     
     html.push('<div class="profilename">');
     html.push(escapeHtml(data.getFormattedValue(row, 1))); 
-    //html.push(escapeHtml(data[row][1])); 
     html.push('</div>');
     
     html.push('<table class="profile">');
     html.push('<tr><td colspan=2><b>國家: </b>');    
-    html.push(escapeHtml(data.getFormattedValue(row, 2))); 
-    //html.push(escapeHtml(data[row][2]));    
+    html.push(escapeHtml(data.getFormattedValue(row, 2)));    
     html.push('</td></tr>');  
       
     html.push('<tr><td colspan=2><b>城市: </b>');   
     html.push(escapeHtml(data.getFormattedValue(row, 3)));  
-    //html.push(escapeHtml(data[row][3])); 
     html.push('</td></tr>');   
       
     html.push('<tr><td colspan=2><b>電話: </b>');    
-    html.push(escapeHtml(data.getFormattedValue(row, 4)));   
-    //html.push(escapeHtml(data[row][4]));  
+    html.push(escapeHtml(data.getFormattedValue(row, 4)));    
     html.push('</td></tr>');   
     
     html.push('<tr><td colspan=2><b>電子郵件信箱: </b><a href="mailto:');
-    html.push(escapeHtml(data.getFormattedValue(row, 5)));
-    //html.push(escapeHtml(data[row][5])); 
+    html.push(escapeHtml(data.getFormattedValue(row, 5))); 
     html.push('">');
     html.push(escapeHtml(data.getFormattedValue(row, 5)));
-    //html.push(escapeHtml(data[row][5])); 
     html.push('</a><br></td></tr>');
     
     html.push('<tr><td colspan=2><b>LINE ID 或 WeChat ID: </b>');
     html.push(escapeHtml(data.getFormattedValue(row, 6)));
-    //html.push(escapeHtml(data[row][6])); 
     html.push('</td></tr>');  
     
     html.push('<tr><td colspan=2><b>網站: </b><a href="');
     html.push(escapeHtml(data.getFormattedValue(row, 7)));
-    //html.push(escapeHtml(data[row][7])); 
     html.push('" target="_blank">');
-    html.push(escapeHtml(data.getFormattedValue(row, 7))); 
-    //html.push(escapeHtml(data[row][7]));                
+    html.push(escapeHtml(data.getFormattedValue(row, 7)));                
     html.push('</a><br></td></tr>');  
     
-    //var levels = escapeHtml(data[row][8]).split('\n');
     print('levels are ' + escapeHtml(data.getFormattedValue(row, 8)));
     var levels = escapeHtml(data.getFormattedValue(row, 8)).split('\n');
     html.push('<tr><td style="vertical-align: top;width:40px"">');
@@ -226,7 +203,6 @@ function composeTeacherInfo(row, data) {
     
     html.push('<tr><td colspan=2><b>語言: </b>');
     html.push(escapeHtml(data.getFormattedValue(row, 10))); 
-    //html.push(escapeHtml(data[row][9]));   
     html.push('</td></tr></table><hr>');   
 }
 
@@ -253,7 +229,6 @@ function escapeHtml(text) {
   if (text == null) {
     return '';
   }
-  //return _hesc(text);
   
   // '<' and '>'
   text = text.replace(/</g, "[").replace(/>/g, "]");
@@ -292,7 +267,8 @@ function print(msg) {
 <p></p> 
 <input type="button" value="搜尋" onclick="sendQuery()"/>
 </form> 
-</div> 
+</div>
+<br />
 <div id="search-result"></div> 
 <div id="debug_div" style="font-size:9pt; padding:5px; color: red;"></div>
 <br />
