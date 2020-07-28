@@ -114,7 +114,7 @@ function sendQuery() {
   /* dev code
   var data = [["1234566","Lillian","台灣","台北","+886930793923","lilliantseng@gmail.com","lilliantseng","http://www.google.com","一階教師\n二階慶典指導員","中文"],
                 ["123123123","陳彥宏","新加坡","Chang-hua","0919882330","siza524@gmail.com","WeChat: size524","https://lillisntseng.wordpress.com","三階教師\n三階習修者\n二階教師","英文, 廣東話"]];
-     html.push('<div class="resulttitle">');
+    html.push('<div class="resulttitle">');
     html.push('擴大療癒法教師/習修者名錄搜尋結果');
     html.push('</div>');
      
@@ -138,11 +138,11 @@ function handleQueryResponse(response) {
 
   var data = response.getDataTable();
   print('result count' + data.getNumberOfRows);
-  if (data.getNumberOfRows > 0)  {  
+  if (data.getNumberOfRows() > 0)  {  
     html.push('<div class="resulttitle">');
     html.push('擴大療癒法教師/習修者名錄搜尋結果');
     html.push('</div>');
-    print(data.getNumberOfRows + " results");
+    print(data.getNumberOfRows() + " results");
      
     for (var row = 0; row < data.getNumberOfRows(); row++) {
         composeTeacherInfo(row, data);
