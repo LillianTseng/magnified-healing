@@ -96,6 +96,7 @@ function sendQuery() {
   clearResult(); //clear previous search result
   $("#search-btn").attr('disabled',1);  
   html.push("搜尋中，請稍後...");
+  setHtml();
    
   if (city.length > 0)
     queryStr += " AND D contains '" + city + "'";
@@ -266,10 +267,10 @@ function print(msg) {
 	<option value="馬來西亞">馬來西亞</option> 
 	<option value="加拿大">加拿大</option> 
 </select>&nbsp&nbsp</div> 
-<div class="ss-form-entry"><span class="ss-q-title">姓名</span> <input type="text" class="ss-q-short" name="t_name" id="t_name" size="20"/></div> 
-<div class="ss-form-entry"><span class="ss-q-title">城市</span> <input type="text" class="ss-q-short" name="t_city" id="t_city" size="20"/></div>  
+<div class="ss-form-entry"><span class="ss-q-title">城市</span> <input type="text" class="ss-q-short" name="t_city" id="t_city" size="20"/></div>
+<div class="ss-form-entry"><span class="ss-q-title">姓名</span> <input type="text" class="ss-q-short" name="t_name" id="t_name" size="20"/></div>   
 <p></p> 
-<input type="button" value="搜尋" onclick="sendQuery()"/>
+<input type="button" id="search-btn" value="搜尋" onclick="sendQuery()"/>
 </form> 
 </div>
 <br />
