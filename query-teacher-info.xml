@@ -55,7 +55,7 @@ var debug_html = "";
  * Load the APIs and run sendQuery when the load is complete
  */
 var gadgetHelper = null;
-//_IG_RegisterOnloadHandler(loadVisualizationAPI); /*20200727 this is legacy function, need to replace by the new func below*/
+//equivalent to setting window.onload
 gadgets.util.registerOnLoadHandler(loadVisualizationAPI);
 function loadVisualizationAPI() { /*20200623 if wants to use GadgetHelper, must use verison 41*/
   google.charts.load('current', {packages: ['corechart']});
@@ -99,10 +99,10 @@ function sendQuery() {
     queryStr += " AND B contains '" + name + "'";
   
   /*20200728 it's said that GadgetHelper is removed due to security reason, though it's still documented*/
-  //var prefs = new gadgets.Prefs();;
-  //gadgetHelper = new google.visualization.GadgetHelper(); 
-  //var query = gadgetHelper.createQueryFromPrefs(prefs);
-  var query = new google.visualization.Query(dataUrl); /*20200728 use hard-coded dataUrl instead*/
+  var prefs = new gadgets.Prefs();
+  gadgetHelper = new google.visualization.GadgetHelper(); 
+  var query = gadgetHelper.createQueryFromPrefs(prefs);
+  //var query = new google.visualization.Query(dataUrl); /*20200728 use hard-coded dataUrl instead*/
   
   print('query = ' + queryStr);
   query.setQuery(queryStr);
