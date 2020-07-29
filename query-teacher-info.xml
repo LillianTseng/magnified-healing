@@ -100,9 +100,11 @@ function sendQuery() {
   
   /*20200728 it's said that GadgetHelper is removed due to security reason, though it's still documented*/
   var prefs = new gadgets.Prefs();
-  gadgetHelper = new google.visualization.GadgetHelper(); 
-  var query = gadgetHelper.createQueryFromPrefs(prefs);
+  var srcUrl = prefs.getString("_table_query_url");
+  //gadgetHelper = new google.visualization.GadgetHelper(); 
+  //var query = gadgetHelper.createQueryFromPrefs(prefs);
   //var query = new google.visualization.Query(dataUrl); /*20200728 use hard-coded dataUrl instead*/
+  var query = new google.visualization.Query(srcUrl);
   
   print('query = ' + queryStr);
   query.setQuery(queryStr);
