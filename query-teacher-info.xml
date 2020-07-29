@@ -28,20 +28,15 @@
 <script src="https://www.gstatic.com/charts/loader.js"></script> 
 
 <script>
-//var dataUrl = "https://docs.google.com/spreadsheets/d/1UfJBgdyejQ21dr4s1fyBtkMYIqZYMUo58b6I6oCIoY0/edit?usp=sharing#gid=1844470468"; //MH Practitioner/Teacher Info Reg [sheet1]
-var dataUrl = "https://docs.google.com/spreadsheets/d/1UfJBgdyejQ21dr4s1fyBtkMYIqZYMUo58b6I6oCIoY0/edit?gid=1844470468&headers=1"; //change another way to identify gid since the previous one doesn't work
+//can't use normal link to indicate sheet 1 in script, must append gid after '?" not '#', and optionally add "headers" to indicate how many header rows
+var dataUrl = "https://docs.google.com/spreadsheets/d/1UfJBgdyejQ21dr4s1fyBtkMYIqZYMUo58b6I6oCIoY0/edit?gid=1844470468&headers=1"; 
+
 // debug flag. When its value is non-zero, debugging messages are displayed
 var debug = 0;
 // The string containing debugging messages
 var debug_html = "";
 
 </script> 
-<style> 
-	label.error { 
-		background: #f7f7f7 url('https://sites.google.com/site/magnifiedhealingchinese/unchecked.gif') no-repeat; 
-		padding-left: 16px; margin-left: .3em; color: #C9C; border:solid gray 1px; 
-	} 
-</style> 
 <style type="text/css" media="screen">
 .ss-form-container{width: 600px; background-color: #F4E8FF; border: 1px solid #CCC; padding: 0.5em 1em; font-size: 1em;} 
 .ss-q-title{font-weight: bold; !--padding-left:7px; margin-bottom:8px; display: block; color: #46094d;} 
@@ -56,7 +51,6 @@ var debug_html = "";
   .profile  {padding:0px 0px 3px 6px;color:#46094df;font-size: 14px}
 </style>
 <script type="text/javascript"> 
-
 /**
  * Load the APIs and run sendQuery when the load is complete
  */
@@ -113,6 +107,11 @@ function sendQuery() {
   print('query = ' + queryStr);
   query.setQuery(queryStr);
   query.send(handleQueryResponse);
+
+  //reset search field
+  $("#t_country").val("");
+  $("#t_city").val("");
+  $("#t_name").val("");
 } 
 /**
  * The core logic. Process the spreadsheet data however you want. 
@@ -199,6 +198,7 @@ function composeTeacherInfo(row, data) {
     var levels = escapeHtml(data.getFormattedValue(row, 8)).split('\n');
     html.push('<tr><td style="vertical-align: top;width:40px"">');
     html.push('<b>資格: </b></td><td>');
+    //enlist levels with lotus icon ahead
     for (var i = 0; i < levels.length; i++) {
         html.push('<img src="http://www.magnifiedhealing-chinese.com/magnified-icon.png"/>');
         html.push(escapeHtml(levels[i])); 
@@ -218,17 +218,16 @@ function setHtml()
    */
   var resultDiv = $("#search-result");
   resultDiv.html(html.join(''));
-  //resultDiv.width(document.body.clientWidth);
-  //resultDiv.height(document.body.clientHeight);
 }
+
 function clearResult()
 {
   $("#search-result").html("");
   html = [];
 }
+
 /**
- * Define any supporting code you need 
- * (like this handy function to escape special characters for html output):
+ * This handy function to escape special characters for html output:
  */
 function escapeHtml(text) {
   if (text == null) {
