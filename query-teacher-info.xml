@@ -29,7 +29,7 @@
 
 <script>
 //can't use normal link to indicate sheet 1 in script, must append gid after '?" not '#', and optionally add "headers" to indicate how many header rows
-var dataUrl = "https://docs.google.com/spreadsheets/d/1UfJBgdyejQ21dr4s1fyBtkMYIqZYMUo58b6I6oCIoY0/edit?gid=1844470468&headers=1"; 
+var dataUrl = "https://docs.google.com/spreadsheets/d/1UfJBgdyejQ21dr4s1fyBtkMYIqZYMUo58b6I6oCIoY0/edit?gid=1844470468&headers=1"; //this is just dummy, real url is got from Prefs
 
 // debug flag. When its value is non-zero, debugging messages are displayed
 var debug = 0;
@@ -54,10 +54,10 @@ var debug_html = "";
 /**
  * Load the APIs and run sendQuery when the load is complete
  */
-var gadgetHelper = null;
+
 //equivalent to setting window.onload
 gadgets.util.registerOnLoadHandler(loadVisualizationAPI);
-function loadVisualizationAPI() { /*20200623 if wants to use GadgetHelper, must use verison 41*/
+function loadVisualizationAPI() { 
   google.charts.load('current', {packages: ['corechart']});
 }
 
@@ -97,16 +97,13 @@ function sendQuery() {
 
   if (name.length > 0)
     queryStr += " AND B contains '" + name + "'";
-  
-  /*20200728 it's said that GadgetHelper is removed due to security reason, though it's still documented*/
-  var prefs = new gadgets.Prefs();
-  var srcUrl = prefs.getString("_table_query_url");
-  //gadgetHelper = new google.visualization.GadgetHelper(); 
-  //var query = gadgetHelper.createQueryFromPrefs(prefs);
-  //var query = new google.visualization.Query(dataUrl); /*20200728 use hard-coded dataUrl instead*/
-  var query = new google.visualization.Query(srcUrl);
-  
+
   print('query = ' + queryStr);
+  
+  var prefs = new gadgets.Prefs();
+  dataUrl = prefs.getString("_table_query_url");
+  var query = new google.visualization.Query(dataUrl);
+  
   query.setQuery(queryStr);
   query.send(handleQueryResponse);
 
