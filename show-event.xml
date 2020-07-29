@@ -99,7 +99,8 @@ function handleQueryResponse(response) {
   /**
    * Use the visualization GadgetHelper class to handle errors 
    */
-  if (!gadgetHelper.validateResponse(response)) {
+
+  if (response.isError()) { //20200729 replace !gadgetHelper.validateResponse(response) by response.isError(), since GadgetHelper is removed
     return;     // Default error handling was done, just leave. 
   }
 
