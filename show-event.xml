@@ -22,8 +22,11 @@
 
 <Content type="html"><![CDATA[
 
-<script src="https://www.google.com/jsapi" type="text/javascript"></script>
-<script src="https://www.gstatic.com/charts/loader.js">//20200623 change library loader, and use version 41</script> 
+<!--script src="https://www.google.com/jsapi" type="text/javascript"--><!--/script  20200729 this library is old, used only for version 45 and before-->
+<script src="https://www.gstatic.com/charts/loader.js">
+//20200623 change library loader, and use version 41   
+/*20200729 GadgetHelper is removed, so retrieve Prefs directly for data url, hence can use the latest version of library*/
+</script> 
 
 <div id="tablediv" style="overflow: auto;">
 更新活動中，請稍候...<img src="http://www.magnifiedhealing-chinese.com/spinner.gif" />
@@ -40,13 +43,16 @@
 /**
  * Load the APIs and run sendQuery when the load is complete
  */
-var gadgetHelper = null;
-//gadgets.util.registerOnLoadHandler(loadVisualizationAPI); //20160923 change from _IG_RegisterOnloadHandler to gadgets.util.registerOnLoadHandler
-_IG_RegisterOnloadHandler(loadVisualizationAPI);
-function loadVisualizationAPI() { //20200623 change library loader, and use version 41
+//var gadgetHelper = null; //20200729 GadgetHelper is removed
+//_IG_RegisterOnloadHandler(loadVisualizationAPI);
+gadgets.util.registerOnLoadHandler(loadVisualizationAPI); //20160923 change from legacy _IG_RegisterOnloadHandler to gadgets.util.registerOnLoadHandler
+function loadVisualizationAPI() { 
+  /*20200623 change library loader, and use version 41*/
   //google.load("visualization", "1");
   //google.setOnLoadCallback(sendQuery);
-  google.charts.load('41', {packages: ['corechart']});
+  /*20200729 GadgetHelper is removed, so retrieve Prefs directly for data url, hence can use the latest version of library*/
+  //google.charts.load('41', {packages: ['corechart']});
+  google.charts.load('current', {packages: ['corechart']});
   google.charts.setOnLoadCallback(sendQuery);
 }
 
@@ -69,11 +75,15 @@ function sendQuery() {
   H address
   I teacher  
   */
-  //var prefs = new gadgets.Prefs(); // User preferences 20160923: change from _IG_Prefs to gadgets.Prefs 
-  var prefs = new _IG_Prefs();
-  gadgetHelper = new google.visualization.GadgetHelper(); 
-  var query = gadgetHelper.createQueryFromPrefs(prefs);
 
+  //var prefs = new _IG_Prefs();
+  var prefs = new gadgets.Prefs(); // User preferences 20160923: change from _IG_Prefs to gadgets.Prefs 
+
+  /*20200729 GadgetHelper is removed, so retrieve Prefs directly for data url, hence can use the latest version of library*/
+  //gadgetHelper = new google.visualization.GadgetHelper(); 
+  //var query = gadgetHelper.createQueryFromPrefs(prefs);
+  var dataUrl = prefs.getString("_table_query_url");
+  var query = new google.visualization.Query(dataUrl);
   query.setQuery('select * where toDate(now()) <= D order by C, B, D, E, F, I asc');
   query.send(handleQueryResponse);
 } 
