@@ -1,4 +1,4 @@
-<html>
+ï»¿<html>
 <script src="js/jquery-1.4.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/jquery.validate.js"></script> 
 <script>
@@ -6,30 +6,30 @@
 	var validator = $("#FormID").validate(
 			{ 
 				rules: {
-					//"entry.1000000": {required: true, maxlength: 50}, //¬¡°Ê¦WºÙ 
-					"entry.1000001": {required: true, date: true, maxlength: 10}, //¤é´Á 
-					"entry.1130960036": {required: true, date: true, maxlength: 10}, //¤é´Á, change from 1000002 to 1130960036
-					"entry.1000003": {required: true, timeHM: true, maxlength: 5}, //®É¶¡ 
-					"entry.1000004": {required: true, timeHM: true, maxlength: 5}, //®É¶¡ 
-					"entry.1000005": {maxlength: 50}, //³õ¦a¦WºÙ 
-					//"country": {required: true, maxlength: 100},//°ê®a 
-					"state": {maxlength: 20},//¬Ù/¬w 
-					"city": {required: true, maxlength: 20},//«°¥« 
-					"entry.1000006": {required: true, maxlength: 100},//¦a§} 
-					"entry.1000007": {required: true, maxlength: 50 },//±Ğ®v 
-					"entry.1000008": {required:true, maxlength: 50}, //¥D¿ìªÌ 
-					"entry.1000009": {phone: true, maxlength: 20}, //¥xÆW³sµ¸¹q¸Ü 
-					"entry.1000010": {intPhone: true, maxlength: 20}, //¥xÆW¥H¥~¦a°Ï³sµ¸¹q¸Ü 
-					"entry.1000011": {required: true, email: true, maxlength: 100}, //¹q¤l¶l¥ó«H½c 
-					"entry.1000012": {url: true, maxlength: 100}, //ºô¯¸ 
-					"entry.10000013": {maxlength: 300} //ª`·N¨Æ¶µ 
-					// "entry.1000015": {maxlength: 100} //³Æµù 
+					//"entry.1000000": {required: true, maxlength: 50}, //æ´»å‹•åç¨± 
+					"entry.1000001": {required: true, date: true, maxlength: 10}, //æ—¥æœŸ 
+					"entry.1130960036": {required: true, date: true, maxlength: 10}, //æ—¥æœŸ, change from 1000002 to 1130960036
+					"entry.1000003": {required: true, timeHM: true, maxlength: 5}, //æ™‚é–“ 
+					"entry.1000004": {required: true, timeHM: true, maxlength: 5}, //æ™‚é–“ 
+					"entry.1000005": {maxlength: 50}, //å ´åœ°åç¨± 
+					//"country": {required: true, maxlength: 100},//åœ‹å®¶ 
+					"state": {maxlength: 20},//çœ/æ´² 
+					"city": {required: true, maxlength: 20},//åŸå¸‚ 
+					"entry.1000006": {required: true, maxlength: 100},//åœ°å€ 
+					"entry.1000007": {required: true, maxlength: 50 },//æ•™å¸« 
+					"entry.1000008": {required:true, maxlength: 50}, //ä¸»è¾¦è€… 
+					"entry.1000009": {phone: true, maxlength: 20}, //å°ç£é€£çµ¡é›»è©± 
+					"entry.1000010": {intPhone: true, maxlength: 20}, //å°ç£ä»¥å¤–åœ°å€é€£çµ¡é›»è©± 
+					"entry.1000011": {required: true, email: true, maxlength: 100}, //é›»å­éƒµä»¶ä¿¡ç®± 
+					"entry.1000012": {url: true, maxlength: 100}, //ç¶²ç«™ 
+					"entry.10000013": {maxlength: 300} //æ³¨æ„äº‹é … 
+					// "entry.1000015": {maxlength: 100} //å‚™è¨» 
 				}, 
 				errorClass: "error", 
 				invalidHandler: 
 					function(form, validator) { 
 						if (validator.numberOfInvalids()) { 
-							alert("Äæ¦ìÀË®Ö¥¼³q¹L,½Ğ¬d¬İÄæ¦ì®Ç¿ù»~°T®§!!"); 
+							alert("æ¬„ä½æª¢æ ¸æœªé€šé,è«‹æŸ¥çœ‹æ¬„ä½æ—éŒ¯èª¤è¨Šæ¯!!"); 
 						} 
 					}, 
 				submitHandler: 
@@ -84,7 +84,7 @@ function formatPhone(f) {
 } 
 function custommsg() { 
 	document.getElementById("form-message").style.display=""; 
-	document.getElementById("form-message").innerHTML='·PÁÂ±zªº¶ñ¼g,§Ú­Ì·|ºÉ§Ö³B²z!<br> <input type=\"button\" value = \"¦^¨ì¤W¤@­¶\" onclick=\" back()\"/> '; 
+	document.getElementById("form-message").innerHTML='æ„Ÿè¬æ‚¨çš„å¡«å¯«,æˆ‘å€‘æœƒç›¡å¿«è™•ç†!<br> <input type=\"button\" value = \"å›åˆ°ä¸Šä¸€é \" onclick=\" back()\"/> '; 
 	document.getElementById("form-container").style.display="none"; 
 } 
 function back(){ 
@@ -93,11 +93,11 @@ function back(){
 } 
 function checkActivity(s){ 
 	switch (s.value) { 
-		case "1ÂX¤jÀøÂ¡ªk¤@¶¥¤u§@§{": 
-		case "2ÂX¤jÀøÂ¡ªk¼y¨å¤u§@§{»P¼y¨å¬¡°Ê": 
-		case "3ÂX¤jÀøÂ¡ªk¼y¨å¬¡°Ê": 
-		case "4ÂX¤jÀøÂ¡ªk¤T¶¥¥ú¯àÀøÂ¡¤u§@§{": 
-		case "5ÂX¤jÀøÂ¡ªk¤@¶¥½u¤W½Æ²ß»P¶i¶¥¸ê°T½Òµ{":		//20200729 add	ÂX¤jÀøÂ¡ªk¤@¶¥½u¤W½Æ²ß»P¶i¶¥¸ê°T½Òµ{ and remove One Day Review
+		case "1æ“´å¤§ç™‚ç™’æ³•ä¸€éšå·¥ä½œåŠ": 
+		case "2æ“´å¤§ç™‚ç™’æ³•æ…¶å…¸å·¥ä½œåŠèˆ‡æ…¶å…¸æ´»å‹•": 
+		case "3æ“´å¤§ç™‚ç™’æ³•æ…¶å…¸æ´»å‹•": 
+		case "4æ“´å¤§ç™‚ç™’æ³•ä¸‰éšå…‰èƒ½ç™‚ç™’å·¥ä½œåŠ": 
+		case "5æ“´å¤§ç™‚ç™’æ³•ä¸€éšç·šä¸Šè¤‡ç¿’èˆ‡é€²éšè³‡è¨Šèª²ç¨‹":		//20200729 add	æ“´å¤§ç™‚ç™’æ³•ä¸€éšç·šä¸Šè¤‡ç¿’èˆ‡é€²éšè³‡è¨Šèª²ç¨‹ and remove One Day Review
 //hide others 
 			document.getElementById("other-activity").style.display="none"; 
 			$("#other-activity").rules("remove", "required maxlength"); 
@@ -105,7 +105,7 @@ function checkActivity(s){
 			break; 
 		case "others": 
 			document.getElementById("other-activity").style.display="inline"; 
-			$("#other-activity").rules("add", {required: true, maxlength: 50, messages: { required: "½Ğ¶ñ¼g¬¡°Ê¦WºÙ" } }); 
+			$("#other-activity").rules("add", {required: true, maxlength: 50, messages: { required: "è«‹å¡«å¯«æ´»å‹•åç¨±" } }); 
 			break; 
 		default: 
 			break; 
@@ -113,10 +113,10 @@ function checkActivity(s){
 } 
 function checkCountry(s){ 
 	switch (s.value) { 
-		case "¥xÆW": 
-		case "­»´ä": 
-		case "·s¥[©Y": 
-		case "°¨¨Ó¦è¨È": 
+		case "å°ç£": 
+		case "é¦™æ¸¯": 
+		case "æ–°åŠ å¡": 
+		case "é¦¬ä¾†è¥¿äº": 
 			//hide others 
 			document.getElementById("other-country").style.display="none"; 
 			$("#other-country").rules("remove", "required maxlength"); 
@@ -125,8 +125,8 @@ function checkCountry(s){
 			$("#state").rules("remove", "required"); 
 			$("#FormID").validate().element("#state"); 
 			break; 
-		case "¤¤°ê": 
-		case "¬ü°ê": 
+		case "ä¸­åœ‹": 
+		case "ç¾åœ‹": 
 			//hide others 
 			document.getElementById("other-country").style.display="none"; 
 			$("#other-country").rules("remove", "required maxlength"); 
@@ -136,7 +136,7 @@ function checkCountry(s){
 				{ 
 					required: true, 
 					messages: { 
-						required: "¿ï¾Ü" + ((s.value == '¤¤°ê')?'¤¤°ê':'¬ü°ê') + "®É¥²¶·¶ñ¼g¬Ù/¦{" 
+						required: "é¸æ“‡" + ((s.value == 'ä¸­åœ‹')?'ä¸­åœ‹':'ç¾åœ‹') + "æ™‚å¿…é ˆå¡«å¯«çœ/å·" 
 					} 
 				}
 			); 
@@ -156,48 +156,48 @@ function checkCountry(s){
 <div class="ss-form-container" id="form-container"> 
 <form action="" method="POST" target="fake-target" name="activity-info" id="FormID"> 
 <div class="ss-form-entry">
-<span class="ss-q-title">¬¡°Ê¦WºÙ*</span> <input type="text" class="ss-q-short" name="entry.1000000" style="display:none;"/> 
+<span class="ss-q-title">æ´»å‹•åç¨±*</span> <input type="text" class="ss-q-short" name="entry.1000000" style="display:none;"/> 
 <select name="activity" class="ss-q-short" type="text" onchange="checkActivity(this);"> 
-	<option value="1ÂX¤jÀøÂ¡ªk¤@¶¥¤u§@§{" selected >ÂX¤jÀøÂ¡ªk¤@¶¥¤u§@§{</option> 
-	<option value="2ÂX¤jÀøÂ¡ªk¼y¨å¤u§@§{»P¼y¨å¬¡°Ê">ÂX¤jÀøÂ¡ªk¼y¨å¤u§@§{»P¼y¨å¬¡°Ê</option> 
-	<option value="3ÂX¤jÀøÂ¡ªk¼y¨å¬¡°Ê">ÂX¤jÀøÂ¡ªk¼y¨å¬¡°Ê</option> 
-	<option value="4ÂX¤jÀøÂ¡ªk¤T¶¥¥ú¯àÀøÂ¡¤u§@§{">ÂX¤jÀøÂ¡ªk¤T¶¥¥ú¯àÀøÂ¡¤u§@§{</option> 
-	<option value="5ÂX¤jÀøÂ¡ªk¤@¶¥½u¤W½Æ²ß»P¶i¶¥¸ê°T½Òµ{">ÂX¤jÀøÂ¡ªk¤@¶¥½u¤W½Æ²ß»P¶i¶¥¸ê°T½Òµ{</option>
-	<option value="others">¨ä¥L</option> 
+	<option value="1æ“´å¤§ç™‚ç™’æ³•ä¸€éšå·¥ä½œåŠ" selected >æ“´å¤§ç™‚ç™’æ³•ä¸€éšå·¥ä½œåŠ</option> 
+	<option value="2æ“´å¤§ç™‚ç™’æ³•æ…¶å…¸å·¥ä½œåŠèˆ‡æ…¶å…¸æ´»å‹•">æ“´å¤§ç™‚ç™’æ³•æ…¶å…¸å·¥ä½œåŠèˆ‡æ…¶å…¸æ´»å‹•</option> 
+	<option value="3æ“´å¤§ç™‚ç™’æ³•æ…¶å…¸æ´»å‹•">æ“´å¤§ç™‚ç™’æ³•æ…¶å…¸æ´»å‹•</option> 
+	<option value="4æ“´å¤§ç™‚ç™’æ³•ä¸‰éšå…‰èƒ½ç™‚ç™’å·¥ä½œåŠ">æ“´å¤§ç™‚ç™’æ³•ä¸‰éšå…‰èƒ½ç™‚ç™’å·¥ä½œåŠ</option> 
+	<option value="5æ“´å¤§ç™‚ç™’æ³•ä¸€éšç·šä¸Šè¤‡ç¿’èˆ‡é€²éšè³‡è¨Šèª²ç¨‹">æ“´å¤§ç™‚ç™’æ³•ä¸€éšç·šä¸Šè¤‡ç¿’èˆ‡é€²éšè³‡è¨Šèª²ç¨‹</option>
+	<option value="others">å…¶ä»–</option> 
 </select>&nbsp&nbsp
 <input type="text" class="ss-q-short" id = "other-activity" name="other-activity" size="20" style="display:none;" /></div> 
-<div class="ss-form-entry"><span class="ss-q-title">¤é´Á*<span class="ss-q-hint">®æ¦¡¬°yyyy/mm/dd, ex: 2011/03/23</span></span> 
+<div class="ss-form-entry"><span class="ss-q-title">æ—¥æœŸ*<span class="ss-q-hint">æ ¼å¼ç‚ºyyyy/mm/dd, ex: 2011/03/23</span></span> 
 <input type="text" class="ss-q-short" name="entry.1000001" size="10"/> ~ <input type="text" class="ss-q-short" name="entry.1130960036" size="10"/></div> 
-<div class="ss-form-entry"><span class="ss-q-title">®É¶¡*<span class="ss-q-hint">®æ¦¡¬°hh:mm, ex: 16:00</span></span> 
+<div class="ss-form-entry"><span class="ss-q-title">æ™‚é–“*<span class="ss-q-hint">æ ¼å¼ç‚ºhh:mm, ex: 16:00</span></span> 
 <input type="text" class="ss-q-short" name="entry.1000003" size="5"/> ~ <input type="text" class="ss-q-short" name="entry.1000004" size="5"/></div> 
-<div class="ss-form-entry"><span class="ss-q-title">³õ¦a¦WºÙ</span> <input type="text" class="ss-q-short" name="entry.1000005" size="50"/></div> 
-<div class="ss-form-entry"><span class="ss-q-title">°ê®a*</span> 
+<div class="ss-form-entry"><span class="ss-q-title">å ´åœ°åç¨±</span> <input type="text" class="ss-q-short" name="entry.1000005" size="50"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">åœ‹å®¶*</span> 
 <select name="country" class="ss-q-short" type="text" onchange="checkCountry(this);"> 
-	<option value="¥xÆW" selected >¥xÆW</option> 
-	<option value="¤¤°ê">¤¤°ê</option> 
-	<option value="¬ü°ê">¬ü°ê</option> 
-	<option value="­»´ä">­»´ä</option> 
-	<option value="·s¥[©Y">·s¥[©Y</option> 
-	<option value="°¨¨Ó¦è¨È">°¨¨Ó¦è¨È</option> 
-	<option value="others">¨ä¥L</option> 
+	<option value="å°ç£" selected >å°ç£</option> 
+	<option value="ä¸­åœ‹">ä¸­åœ‹</option> 
+	<option value="ç¾åœ‹">ç¾åœ‹</option> 
+	<option value="é¦™æ¸¯">é¦™æ¸¯</option> 
+	<option value="æ–°åŠ å¡">æ–°åŠ å¡</option> 
+	<option value="é¦¬ä¾†è¥¿äº">é¦¬ä¾†è¥¿äº</option> 
+	<option value="others">å…¶ä»–</option> 
 </select>&nbsp&nbsp
 <input type="text" class="ss-q-short" id = "other-country" name="other-country" size="20" style="display:none;" /></div> 
-<div class="ss-form-entry"><span class="ss-q-title">¬Ù/¦{</span> <input type="text" class="ss-q-short" name="state" id="state" size="20"/></div> 
-<div class="ss-form-entry"><span class="ss-q-title">«°¥«*</span> <input type="text" class="ss-q-short" name="city" size="20"/></div> 
-<div class="ss-form-entry"><span class="ss-q-title">¦a§}*</span> <textarea class="ss-q-short" cols="60" rows="3" name="entry.1000006" /></textarea></div> 
-<div class="ss-form-entry"><span class="ss-q-title">±Ğ®v*</span> <input type="text" class="ss-q-short" name="entry.1000007" size="50"/></div> 
-<div class="ss-form-entry"><span class="ss-q-title">¥D¿ìªÌ*</span> <input type="text" class="ss-q-short" name="entry.1000008" size="50"/></div> 
-<div class="ss-form-entry"><span class="ss-q-title">¥xÆW³sµ¸¹q¸Ü<span class="ss-q-hint">®æ¦¡¬°03-xxxxxxx©Î02-xxxxxxxx,¤â¾÷½Ğ¿é¤J09xxxxxxxx</span></span> 
+<div class="ss-form-entry"><span class="ss-q-title">çœ/å·</span> <input type="text" class="ss-q-short" name="state" id="state" size="20"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">åŸå¸‚*</span> <input type="text" class="ss-q-short" name="city" size="20"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">åœ°å€*</span> <textarea class="ss-q-short" cols="60" rows="3" name="entry.1000006" /></textarea></div> 
+<div class="ss-form-entry"><span class="ss-q-title">æ•™å¸«*</span> <input type="text" class="ss-q-short" name="entry.1000007" size="50"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">ä¸»è¾¦è€…*</span> <input type="text" class="ss-q-short" name="entry.1000008" size="50"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">å°ç£é€£çµ¡é›»è©±<span class="ss-q-hint">æ ¼å¼ç‚º03-xxxxxxxæˆ–02-xxxxxxxx,æ‰‹æ©Ÿè«‹è¼¸å…¥09xxxxxxxx</span></span> 
 <input type="text" class="ss-q-short" name="entry.1000009" size="20"/></div> 
-<div class="ss-form-entry"><span class="ss-q-title">¥xÆW¥H¥~¦a°Ï³sµ¸¹q¸Ü<span class="ss-q-hint">½Ğ¨Ì °ê½X-°Ï°ì¸¹½X-¸¹½X ®æ¦¡¶ñ¼g, ex: 886-2-12345678</span></span> 
+<div class="ss-form-entry"><span class="ss-q-title">å°ç£ä»¥å¤–åœ°å€é€£çµ¡é›»è©±<span class="ss-q-hint">è«‹ä¾ åœ‹ç¢¼-å€åŸŸè™Ÿç¢¼-è™Ÿç¢¼ æ ¼å¼å¡«å¯«, ex: 886-2-12345678</span></span> 
 <input type="text" class="ss-q-short" name="entry.1000010" size="20"/></div> 
-<div class="ss-form-entry"><span class="ss-q-title">¹q¤l¶l¥ó«H½c*</span> <input type="text" class="ss-q-short" name="entry.1000011" size="50"/></div> 
-<div class="ss-form-entry"><span class="ss-q-title">ºô¯¸<span class="ss-q-hint">¶·¥Hhttp:// ©Îhttps://¶}ÀY</span></span> 
+<div class="ss-form-entry"><span class="ss-q-title">é›»å­éƒµä»¶ä¿¡ç®±*</span> <input type="text" class="ss-q-short" name="entry.1000011" size="50"/></div> 
+<div class="ss-form-entry"><span class="ss-q-title">ç¶²ç«™<span class="ss-q-hint">é ˆä»¥http:// æˆ–https://é–‹é ­</span></span> 
 <input type="text" class="ss-q-short" name="entry.1000012" size="50"/></div> 
-<div class="ss-form-entry"><span class="ss-q-title">ª`·N¨Æ¶µ</span> <textarea class="ss-q-short" name="entry.1000014" rows="5" cols="60"/></textarea></div> 
+<div class="ss-form-entry"><span class="ss-q-title">æ³¨æ„äº‹é …</span> <textarea class="ss-q-short" name="entry.1000014" rows="5" cols="60"/></textarea></div> 
 <p></p> 
-<input type="submit" class="submit" value="°e¥X¬¡°Ê¸ê°T" /> 
-<input type="reset" class="submit" value="¨ú®ø" />
+<input type="submit" class="submit" value="é€å‡ºæ´»å‹•è³‡è¨Š" /> 
+<input type="reset" class="submit" value="å–æ¶ˆ" />
 </form> 
 </div> 
 <iframe src="#" id="fake-target" name="fake-target" style="width:0px; height:0px; border:0px;"></iframe>
