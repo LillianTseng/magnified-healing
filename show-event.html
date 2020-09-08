@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<script src="https://www.gstatic.com/charts/loader.js"></script> 
+<div id="tablediv" style="overflow: auto;">
+更新活動中，請稍候...<img src="http://lilliantseng.github.io/magnified-healing/images/spinner.gif" />
+</div>
+<style type="text/css">
+  .event  {padding:0px 0px 3px 10px;background-image:url('http://lilliantseng.github.io/magnified-healing/images/eventbg.gif');margin-top:20px;line-height:120%;color:#46094d}
+  .eventtitle  {padding:3px 3px 3px 33px;margin-left:-10px;background-color:#9CF;background-image:url('http://lilliantseng.github.io/magnified-healing/images/event-logo.gif');background-repeat:no-repeat;background-position:1% 50%;font-weight:bold;color:#46094d}
+  .nancy  {background-color:#C9C;background-image:url('http://lilliantseng.github.io/magnified-healing/images/event-g-logo.gif');background-repeat:no-repeat;background-position:0% 50%;}
+</style>
+<script>
+// debug flag. When its value is non-zero, debugging messages are displayed
+var debug = 0;
+// The string containing debugging messages
+var debug_html = "";
+var dataUrl = 'https://docs.google.com/spreadsheets/d/1v3oovzhqhy2N8OMiHiO7pvLx74MykGPhzF_tjXp4Hqw/gviz/tq?authkey=COG2zIwB&gid=1'
+
+//web url: https://script.google.com/macros/s/AKfycbzHoPSR-0zq90eAHj6GkkNZZTDLyWx3ZS8ZnlofHBRWSwEDrg8/exec
+//dev url: https://script.google.com/macros/s/AKfycbzHlnl2VA8ybawPrA2gFZLS1ea6NW1psHwMck8znNY/dev
+/**
+ * Load the APIs and run sendQuery when the load is complete
+ */
+google.charts.load('current', {packages: ['corechart']});
+google.charts.setOnLoadCallback(sendQuery);
+  
+var html = [];   // start the HTML output string
+/**
+ * Create a query (shaped by the Gadget's user preferences), then 
+ * send it to the spreadsheet data source. Also give the name of a 
+ * function ("handleQueryResponse") to run once the spreadsheet data 
+ * is retrieved:
+ */
+function sendQuery() {
+  /* Query field mapping
+  A timestamp
+  B Activity
+  C start date
+  D end date
+  E start time
+  F end time
+  H address
+  I teacher  
+  */
+  var query = new google.visualization.Query(dataUrl);
+  query.setQuery('select * where toDate(now()) <= D order by C, B, D, E, F, I asc');
+  query.send(handleQueryResponse);
+} 
+/**
+ * The core logic. Process the spreadsheet data however you want. 
+ * In this case, we create HTML to be presented back to the user. 
+ * We'll use inline comments to provide a step-by-step description 
+ * of what we're doing:
+ */
+function handleQueryResponse(response) {
+  if (response.isError()) { 
+    print('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+    return;     // Default error handling was done, just leave. 
+  }  
+  /**
+   * GET THE DATA FROM THE SPREADSHEET - sorry to scream in caps, but 
+   * this is a key step
+   */
+  var data = response.getDataTable();
+  var unPostEvents = new Array();
+   
+  /**
+   * Process all Rows in the specified range
+   */
+  for (var row = 0; row < data.getNumberOfRows(); row++) {
+    //Judget who the teacher is
+    var teacher = escapeHtml(data.getFormattedValue(row, 8)).toLowerCase();
+    //Post Nancy's event first
+    if (teacher.indexOf('nancy wang')>=0 || teacher.indexOf('汪慧蓮')>=0) {
+      composeEvent(row, '<div class="eventtitle nancy">', data);
+    }
+    else {
+      unPostEvents.push(row);
+    }
+  }
+  //Post events of other teachers
+  for (var index = 0; index < unPostEvents.length; index++) {
+    composeEvent(unPostEvents[index],'<div class="eventtitle">', data);
+  }
+  setHtml(); 
+}
+function composeEvent(row, eventTitle, data) {
+    var address = new Array();
+    address = escapeHtml(data.getFormattedValue(row, 7)).split("|");
+    html.push('<div class="event">');
+    html.push(eventTitle);
+    //html.push('<b>活動名稱: </b>');
+    html.push(escapeHtml(data.getFormattedValue(row, 1)).substring(1));
+    //html.push('<br>');    
+    html.push('</div>');
+    
+    html.push('<div class="eventinfo">');
+    html.push('<b>日期: </b>');    
+    html.push(escapeHtml(data.getFormattedValue(row, 2)));    
+    html.push('~');    
+    html.push(escapeHtml(data.getFormattedValue(row, 3)));    
+    html.push('<br>');  
+      
+    html.push('<b>時間: </b>');    
+    html.push(escapeHtml(data.getFormattedValue(row, 4)));    
+    html.push('~');    
+    html.push(escapeHtml(data.getFormattedValue(row, 5)));    
+    html.push('<br>');  
+      
+    html.push('<b>場地名稱: </b>');    
+    html.push(escapeHtml(data.getFormattedValue(row, 6)));    
+    html.push('<br>');  
+      
+    html.push('<b>國家: </b>');    
+    html.push(address[0]);    
+    html.push(' | <b>省/州: </b>');    
+    html.push(address[1]);    
+    html.push(' | <b>城市: </b>');    
+    html.push(address[2]);    
+    html.push('<br>');    
+    
+    html.push('<b>地址: </b>');    
+    html.push(address[3]);    
+    html.push('<br>');    
+    
+    html.push('<b>教師: </b>');    
+    html.push(escapeHtml(data.getFormattedValue(row, 8)));
+    html.push('<br>');  
+      
+    html.push('<b>主辦者: </b>');    
+    html.push(escapeHtml(data.getFormattedValue(row, 9)));    
+    html.push('<br>');
+    
+    html.push('<b>台灣連絡電話: </b>');
+    html.push(escapeHtml(data.getFormattedValue(row, 10)));
+    html.push('<br>');
+    
+    html.push('<b>台灣以外地區連絡電話: </b>');
+    html.push(escapeHtml(data.getFormattedValue(row, 11)));
+    html.push('<br>');
+    
+    html.push('<b>電子郵件信箱: </b><a href="mailto:');
+    html.push(escapeHtml(data.getFormattedValue(row, 12)));
+    html.push('">');
+    html.push(escapeHtml(data.getFormattedValue(row, 12)));
+    html.push('</a><br>');
+    
+    html.push('<b>網站: </b><a href="');
+    html.push(escapeHtml(data.getFormattedValue(row, 13)));
+    html.push('" target="_blank">');
+    html.push(escapeHtml(data.getFormattedValue(row, 13)));                
+    html.push('</a><br>');  
+      
+    html.push('<b>注意事項: </b>');    
+    html.push(escapeHtml(data.getFormattedValue(row, 14)));   
+    html.push('</div></div>'); 
+    //html.push('<br>');    
+}
+function setHtml()
+{
+  /**
+   * Set the generated html into the container div.
+   */
+  var tableDiv = document.getElementById('tablediv');
+  tableDiv.innerHTML = html.join('');
+  tableDiv.style.width = '800px';//document.body.clientWidth + 'px';
+  tableDiv.style.height = document.body.clientHeight + 'px';
+}
+/**
+ * Define any supporting code you need 
+ * (like this handy function to escape special characters for html output):
+ */
+function escapeHtml(text) {
+  if (text == null) {
+    return '';
+  }
+  
+  // '<' and '>'
+  text = text.replace(/</g, "[").replace(/>/g, "]");
+  // '"' and '
+  text = text.replace(/"/g, "*").replace(/'/g, "*");
+  return text;
+} 
+
+// Outputs debug messages if debug flag has a non-zero value
+function print(msg) {      
+    if (debug) {
+        debug_html += "<br>" + msg;
+        // Write debug HTML to div
+        $("#debug_div").html(debug_html);
+    }
+}
+</script> 
+</html>
+
+
+
