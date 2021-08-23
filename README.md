@@ -1,6 +1,8 @@
 # magnified-healing
 Automatically exported from code.google.com/p/magnified-healing
-[2021/08/23] Change to 一階線上復習與高深資訊研究課程
+
+**[2021/08/23] Change to 一階線上復習與高深資訊研究課程**
+Note: 新網站要用.html,舊網站用 .xml
 --
 
 [2020/07/28]Add query-teacher-info.xml for new application to add and view MG teacher profiles
