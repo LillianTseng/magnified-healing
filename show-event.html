@@ -71,7 +71,7 @@ function handleQueryResponse(response) {
     //Judget who the teacher is
     var teacher = escapeHtml(data.getFormattedValue(row, 8)).toLowerCase();
     //Post Nancy's event first
-    if (teacher.indexOf('nancy wang')>=0 || teacher.indexOf('汪慧蓮')>=0 || teacher.indexOf('VALERIA PEREIRA')>=0) {
+    if (teacher.indexOf('nancy wang')>=0 || teacher.indexOf('汪慧蓮')>=0 || teacher.indexOf('valeria pereira')>=0) {
       composeEvent(row, '<div class="eventtitle nancy">', data);
     }
     else {
